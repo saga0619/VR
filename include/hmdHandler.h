@@ -4,6 +4,7 @@
 #include <thread>
 #include <vector>
 #include <std_msgs/Float32MultiArray.h>
+#include <geometry_msgs/Pose.h>
 #include <cmath>
 
 #include "VR/trackers.h"
@@ -107,6 +108,8 @@ public:
 	ros::Publisher tracker_pose_pub;
 	VR::trackers tracker_pose_msg;
 
+	Eigen::Isometry3d it_matrix3d[6];
+
 	bool subCallbackFlag = false;
 
 	//vr is  right-handed system
@@ -114,6 +117,8 @@ public:
    // +x is to the right
    // -z is forward
    // Distance unit is  meters
+
+   
 
 	_FLOAT map2array(Mat eigen);
 	Mat map2eigen(float array[][4]);

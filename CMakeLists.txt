@@ -9,6 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
 	rospy
 	sensor_msgs
 	std_msgs
+	geometry_msgs
 	message_generation
 	cv_bridge
 	image_transport
@@ -30,6 +31,7 @@ add_message_files(
 generate_messages(
 	DEPENDENCIES
 	std_msgs
+	geometry_msgs
 )
 
 
@@ -68,7 +70,7 @@ list(REMOVE_DUPLICATES QT_FLAGS)
 catkin_package( ## if you dont add this, executables are not found
   INCLUDE_DIRS include
   LIBRARIES VR
-  CATKIN_DEPENDS roscpp rospy std_msgs message_runtime message_filters image_transport cv_bridge sensor_msgs
+  CATKIN_DEPENDS roscpp rospy std_msgs geometry_msgs message_runtime message_filters image_transport cv_bridge sensor_msgs
 )
 
 

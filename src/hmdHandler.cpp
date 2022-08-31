@@ -1,5 +1,5 @@
 #include "hmdHandler.h"
-
+#include <eigen_conversions/eigen_msg.h>
 
 
 void ThreadSleep(unsigned long nMilliseconds)
@@ -2371,6 +2371,7 @@ void HMD::checkConnection() {
 
 
 
+
 /* Private members IMPLEMENTATIOn*/
 _FLOAT HMD::map2array(Mat eigen) {
     // Return 4x4 Eigen matrix to 3x4 c++ matrix
@@ -2490,6 +2491,17 @@ void HMD::rosPublish() {
             TRACKER_curEig[i] = map2eigen(m_rTrackedDevicePose[TRACKER_INDEX[i]].mDeviceToAbsoluteTracking.m);
             HMD_TRACKER[i] = map2array(coordinate_robot(TRACKER_curEig[i]));
             tracker_pose_msg.tmat[i] = makeTrackingmsg(HMD_TRACKER[i]);
+
+            for(int j=0;j<3;j++)
+            {
+                it_matrix3d[i].linear()(0,j) = HMD_TRACKER[i][0][j];
+                it_matrix3d[i].linear()(1,j) = HMD_TRACKER[i][1][j];
+                it_matrix3d[i].linear()(1,j) = HMD_TRACKER[i][2][j];
+
+                it_matrix3d[i].translation()(j) = HMD_TRACKER[i][j][3];
+            }
+            
+            tf::poseEigenToMsg(it_matrix3d[i], tracker_pose_msg.tpose[i]);
         }
     }
     if (pubPose) {
