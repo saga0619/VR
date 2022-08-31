@@ -6,6 +6,8 @@
 #include <std_msgs/Float32MultiArray.h>
 #include <cmath>
 
+#include "VR/trackers.h"
+
 #ifndef hmdHandler_h
 #define hmdHandler_h
 
@@ -101,6 +103,10 @@ public:
 	bool pubPose = true;
 	int loop_tick_ = 0;
 	ros::Publisher hmd_pub, leftCon_pub, rightCon_pub, tracker_pub[trackerNum], tracker_status_pub;
+
+	ros::Publisher tracker_pose_pub;
+	VR::trackers tracker_pose_msg;
+
 	bool subCallbackFlag = false;
 
 	//vr is  right-handed system

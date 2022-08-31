@@ -24,6 +24,7 @@ find_package( OpenCV REQUIRED
 add_message_files(
 	FILES
 	matrix_3_4.msg
+	trackers.msg
 )
 
 generate_messages(

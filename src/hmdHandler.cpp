@@ -1390,6 +1390,8 @@ void HMD::init() {
     }
     tracker_status_pub = node.advertise<std_msgs::Bool>("TRACKERSTATUS", 1000);
 
+    tracker_pose_pub = node.advertise<VR::trackers>("/all_trackers",10);
+
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) < 0)
     {   
         printf("%s - SDL could not initialize! SDL Error: %s\n", __FUNCTION__, SDL_GetError());
@@ -2487,6 +2489,7 @@ void HMD::rosPublish() {
         {
             TRACKER_curEig[i] = map2eigen(m_rTrackedDevicePose[TRACKER_INDEX[i]].mDeviceToAbsoluteTracking.m);
             HMD_TRACKER[i] = map2array(coordinate_robot(TRACKER_curEig[i]));
+            tracker_pose_msg.tmat[i] = makeTrackingmsg(HMD_TRACKER[i]);
         }
     }
     if (pubPose) {
@@ -2505,6 +2508,7 @@ void HMD::rosPublish() {
             tracker_status_pub.publish(allTrackersFineData);
             if (allTrackersFine)
             {
+                tracker_pose_pub.publish(tracker_pose_msg);
                 for (int i=0; i<trackerNum; i++)
                 {                
                     if (std::string(serialNumber[i]) == "LHR-B979AA9E")
